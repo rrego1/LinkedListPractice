@@ -113,25 +113,34 @@ public class LinkedList {
             System.out.println("2. Add Element");
             System.out.println("3. Reverse List");
             int selection = stdin.nextInt();
-            if(selection == 1){
-                System.out.println("Enter the index for the node you want to delete.");
-                int index = stdin.nextInt();
-                remove(linkedLists.get(listNumber - 1), index);
-                printList(linkedLists.get(listNumber - 1));
-            }else if(selection == 2){
-                System.out.println("Enter the value for the new node.");
-                int val = stdin.nextInt();
-                Node node = new Node(val);
-                System.out.println("Enter the index for the location of the new node.");
-                int index = stdin.nextInt();
-                insert(linkedLists.get(listNumber - 1), node, index);
-                printList(linkedLists.get(listNumber - 1));
-
-            }else if(selection == 3){
-
-            }else{
-                System.out.println("Invalid Selection");
-                modify();
+            int index;
+            switch (selection) {
+                case 1:
+                    System.out.println("Enter the index for the node you want to delete. (0 indexed)");
+                    index = stdin.nextInt();
+                    remove(linkedLists.get(listNumber - 1), index);
+                    printList(linkedLists.get(listNumber - 1));
+                    break;                  
+                case 2:
+                    
+                    System.out.println("Enter the value for the new node.");
+                    int val = stdin.nextInt();
+                    Node node = new Node(val);
+                    System.out.println("Enter the index for the position of the new node. (0 indexed)");
+                    index = stdin.nextInt();
+                    insert(linkedLists.get(listNumber - 1), node, index);
+                    printList(linkedLists.get(listNumber - 1));
+                    break;    
+                case 3:
+                    Node newList = reverse(linkedLists.get(listNumber - 1));
+                    printList(newList);
+                    linkedLists.remove(listNumber - 1);
+                    linkedLists.add(listNumber - 1, newList);
+                    break;
+                default:
+                    System.out.println("Invalid Selection");
+                    modify();
+                    break;
             }
         }else{
             System.out.println("Invalid List");
@@ -142,22 +151,53 @@ public class LinkedList {
     static void insert(Node head, Node newNode, int index){
         Node current = head;
         for(int i = 0; i < index + 1; i++){
-            if(i == index){
+            if(i == index - 1){
                 newNode.setNext(current.getNext());
                 current.setNext(newNode);
                 break;
             }else{
-                //needs to advance current and check to make sure current is not null before trying to get the next node
+                if(current != null){
+                    current = current.getNext();
+                }
             }
         }
     }
     
     static void remove(Node head, int index){
+        Node current = head;
+        Node previous = head;
+        for(int i = 0; i < index; i++){
+            if(current != null){
+                if(current.getNext() != null){
+                    previous = current;
+                }
+                current = current.getNext();
+            }
+        }
+        if(current != null){
+            previous.setNext(current.getNext());
+        }else{
+            previous.setNext(null);
+        }
 
     }
 
-    static void reverse(){
-
+    static Node reverse(Node head){
+        Node current = head;
+        Node newHead = null;
+        while(current != null){
+            if(newHead == null){
+                newHead = new Node(current.getVal());
+                current = current.getNext();
+                newHead.setNext(null);
+            }else{
+                Node newNode = new Node(current.getVal());
+                newNode.setNext(newHead);
+                newHead = newNode;
+                current = current.getNext();
+            }  
+        }
+        return newHead;
     }
 
     static void addLists(){
