@@ -237,8 +237,44 @@ public class LinkedList {
         }
     }
 
-    static void sumLists(){
-
+    static void sumLists(Node headOne, Node headTwo){
+        headOne = reverse(headOne);
+        headTwo = reverse(headTwo);
+        Node newHead = null;
+        boolean addOne = false;
+        while(headOne != null || headTwo != null){
+            int val1 = 0;
+            int val2= 0;
+            if(headOne != null){
+                val1 = headOne.getVal();
+            }
+            if(headTwo != null){
+                val2 = headTwo.getVal();
+            }
+            int val = val1 + val2;
+            if(addOne){
+                val++;
+                addOne = false;
+            }
+            if(val > 9){
+                val = val % 10;
+                addOne = true;
+            }
+            Node newNode = new Node(val);
+            if(newHead == null){
+                newHead = newNode;
+            }else{
+                newNode.setNext(newHead);
+                newHead = newNode;
+            }
+        }
+        if(addOne){
+            Node newNode = new Node(1);
+            newNode.setNext(newHead);
+            newHead = newNode;
+        }
+        printList(newHead);
+        linkedLists.add(newHead);
     }
     
     static void increasingOrderSort(){

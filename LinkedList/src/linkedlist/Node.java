@@ -10,8 +10,8 @@ package linkedlist;
  * @author reggs
  */
 public class Node {
-    int val;
-    Node next;
+    private int val;
+    private Node next;
 
     Node (){
         val = 0;
