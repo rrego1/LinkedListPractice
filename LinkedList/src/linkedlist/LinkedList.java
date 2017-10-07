@@ -25,15 +25,18 @@ public class LinkedList {
             char selection = getSelection();
             switch(selection){
             case '1':
-                    Node newList = createNew();
-                    linkedLists.add(newList);
-                    break;
+                Node newList = createNew();
+                linkedLists.add(newList);
+                break;
             case '2':
-                    modify();
-                    break;
+                modify();
+                break;
             case '3':
-                    running = false;
-                    break;
+                removeList();
+                break;
+            case '4':
+                running = false;
+                break;
             }
         }
     }
@@ -46,8 +49,8 @@ public class LinkedList {
         System.out.println();
         System.out.println("1. Create new List");
         System.out.println("2. Modify List");
-        System.out.println("Delete List");
-        System.out.println("3. Exit");
+        System.out.println("3. Delete List");
+        System.out.println("4. Exit");
 
         String input = stdin.next();
         if(input.length() != 1){
@@ -57,11 +60,10 @@ public class LinkedList {
                 c = input.charAt(0);
         }
         if(c != 0){
-
             for(int i = 0; i < validInput.length; i++){
-                    if(validInput[i] == c){
-                            return c;
-                    }
+                if(validInput[i] == c){
+                    return c;
+                }
             }
             System.out.println("Invalid selection: Please enter a valid choice." + "here");
             return getSelection();
@@ -121,8 +123,7 @@ public class LinkedList {
                     remove(linkedLists.get(listNumber - 1), index);
                     printList(linkedLists.get(listNumber - 1));
                     break;                  
-                case 2:
-                    
+                case 2:   
                     System.out.println("Enter the value for the new node.");
                     int val = stdin.nextInt();
                     Node node = new Node(val);
@@ -146,6 +147,14 @@ public class LinkedList {
             System.out.println("Invalid List");
             modify();
         }
+    }
+    
+    static void removeList(){
+        System.out.println("While list do you want to modify?");
+        printAllLists();
+        int listNumber = stdin.nextInt();
+        linkedLists.remove(listNumber - 1);
+        System.out.println("List removed.");
     }
     
     static void insert(Node head, Node newNode, int index){
