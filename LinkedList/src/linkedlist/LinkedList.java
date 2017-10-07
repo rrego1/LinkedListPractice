@@ -35,6 +35,9 @@ public class LinkedList {
                 removeList();
                 break;
             case '4':
+                mergeLists();
+                break;
+            case '5':
                 running = false;
                 break;
             }
@@ -44,13 +47,14 @@ public class LinkedList {
     static char getSelection(){
         char c;
 
-        char [] validInput = {'1', '2', '3', '4'};
+        char [] validInput = {'1', '2', '3', '4', '5'};
         System.out.println("What would you like to do?");
         System.out.println();
         System.out.println("1. Create new List");
         System.out.println("2. Modify List");
         System.out.println("3. Delete List");
-        System.out.println("4. Exit");
+        System.out.println("4. Merge Lists");
+        System.out.println("5. Exit");
 
         String input = stdin.next();
         if(input.length() != 1){
@@ -150,7 +154,7 @@ public class LinkedList {
     }
     
     static void removeList(){
-        System.out.println("While list do you want to modify?");
+        System.out.println("While list do you want to delete?");
         printAllLists();
         int listNumber = stdin.nextInt();
         linkedLists.remove(listNumber - 1);
@@ -209,12 +213,40 @@ public class LinkedList {
         return newHead;
     }
 
-    static void addLists(){
-
+    static void mergeLists(){
+        if(linkedLists.size() < 2){
+            System.out.println("Not enough lists to merge");
+        }else{
+            System.out.println("Which lists do you want to merge?");
+            printAllLists();
+            int first = stdin.nextInt();
+            int second = stdin.nextInt();
+            if(first <= linkedLists.size() && first > 0 && second <= linkedLists.size() && second > 0){
+                Node firstList = linkedLists.get(first - 1);
+                Node secondList = linkedLists.get(second - 1);
+                while(firstList.getNext() != null){
+                    firstList = firstList.getNext();
+                }
+                firstList.setNext(secondList);
+                linkedLists.remove(secondList);
+                printList(linkedLists.get(first - 1));
+            }else{
+                System.out.println("Invalid list selection");
+                mergeLists();
+            }
+        }
     }
 
     static void sumLists(){
 
+    }
+    
+    static void increasingOrderSort(){
+        
+    }
+    
+    static void decreasingOrderSort(){
+        
     }
     
     static void printList(Node head){
