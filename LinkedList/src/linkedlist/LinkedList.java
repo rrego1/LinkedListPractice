@@ -334,12 +334,14 @@ public class LinkedList {
     
     static void decreasingOrderSort(Node head){
         Node newHead = null;
-        while(head != null){
+        Node temp = head;
+        while(temp != null){
             if(newHead == null){
-                newHead = head;
+                newHead = new Node(temp.getVal());
             }else{
-                newHead = insertDecreasingOrder(newHead, head);
+                newHead = insertDecreasingOrder(newHead, temp);
             }
+            temp = temp.getNext();
         }
         int index = linkedLists.indexOf(head);
         linkedLists.remove(head);
@@ -347,7 +349,32 @@ public class LinkedList {
     }
     
     static Node insertDecreasingOrder(Node head, Node node){
-       return null;
+        Node prev = null;
+        Node current = head;
+        Node newNode = new Node(node.getVal());
+        while(current != null){
+            if(prev == null){
+                if(current.getVal() < node.getVal()){
+                    newNode.setNext(current);
+                    return newNode;
+                }else{
+                    prev = current;
+                    current = current.getNext();
+                }
+            }else{
+                if(current.getVal() < node.getVal()){
+                    prev = current;
+                    current = current.getNext();
+                }else{
+                    Node next = current.getNext();
+                    current.setNext(newNode);
+                    newNode.setNext(next);
+                    return head;
+                }
+            }
+        }
+        prev.setNext(newNode);
+        return head;
     }
     
     static void printList(Node head){
