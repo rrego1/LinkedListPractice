@@ -110,7 +110,7 @@ public class LinkedList {
     }
     
     static void modify(){
-        System.out.println("While list do you want to modify?");
+        System.out.println("What list do you want to modify?");
         printAllLists();
         int listNumber = stdin.nextInt();
         if(listNumber > 0 && listNumber <= linkedLists.size()){
@@ -118,6 +118,8 @@ public class LinkedList {
             System.out.println("1. Delete Element");
             System.out.println("2. Add Element");
             System.out.println("3. Reverse List");
+            System.out.println("4. Sort Increasing Order");
+            System.out.println("5. Sort Decreasing Order");
             int selection = stdin.nextInt();
             int index;
             switch (selection) {
@@ -141,6 +143,14 @@ public class LinkedList {
                     printList(newList);
                     linkedLists.remove(listNumber - 1);
                     linkedLists.add(listNumber - 1, newList);
+                    break;
+                case 4:
+                    increasingOrderSort(linkedLists.get(listNumber - 1));
+                    printList(linkedLists.get(listNumber - 1));
+                    break;
+                case 5:
+                    decreasingOrderSort(linkedLists.get(listNumber - 1));
+                    printList(linkedLists.get(listNumber - 1));
                     break;
                 default:
                     System.out.println("Invalid Selection");
@@ -277,12 +287,67 @@ public class LinkedList {
         linkedLists.add(newHead);
     }
     
-    static void increasingOrderSort(){
-        
+    static void increasingOrderSort(Node head){
+        Node newHead = null;
+        Node temp = head;
+        while(temp != null){
+            if(newHead == null){
+                newHead = new Node(temp.getVal());
+            }else{
+                newHead = insertIncreasingOrder(newHead, temp);
+            }
+            temp = temp.getNext();
+        }
+        int index = linkedLists.indexOf(head);
+        linkedLists.remove(head);
+        linkedLists.add(index, newHead);
     }
     
-    static void decreasingOrderSort(){
-        
+    static Node insertIncreasingOrder(Node head, Node node){     
+        Node prev = null;
+        Node current = head;
+        Node newNode = new Node(node.getVal());
+        while(current != null){
+            if(prev == null){
+                if(current.getVal() > node.getVal()){
+                    newNode.setNext(current);
+                    return newNode;
+                }else{
+                    prev = current;
+                    current = current.getNext();
+                }
+            }else{
+                if(current.getVal() < node.getVal()){
+                    prev = current;
+                    current = current.getNext();
+                }else{
+                    Node next = current.getNext();
+                    current.setNext(newNode);
+                    newNode.setNext(next);
+                    return head;
+                }
+            }
+        }
+        prev.setNext(newNode);
+        return head;
+    }
+    
+    static void decreasingOrderSort(Node head){
+        Node newHead = null;
+        while(head != null){
+            if(newHead == null){
+                newHead = head;
+            }else{
+                newHead = insertDecreasingOrder(newHead, head);
+            }
+        }
+        int index = linkedLists.indexOf(head);
+        linkedLists.remove(head);
+        linkedLists.add(index, newHead);
+    }
+    
+    static Node insertDecreasingOrder(Node head, Node node){
+       return null;
     }
     
     static void printList(Node head){
@@ -307,4 +372,5 @@ public class LinkedList {
             count++;
         }
     }
+    
 }
