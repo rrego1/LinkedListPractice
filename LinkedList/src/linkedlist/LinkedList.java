@@ -38,6 +38,9 @@ public class LinkedList {
                 mergeLists();
                 break;
             case '5':
+                addLists();
+                break;
+            case '6':
                 running = false;
                 break;
             }
@@ -47,14 +50,15 @@ public class LinkedList {
     static char getSelection(){
         char c;
 
-        char [] validInput = {'1', '2', '3', '4', '5'};
+        char [] validInput = {'1', '2', '3', '4', '5', '6'};
         System.out.println("What would you like to do?");
         System.out.println();
         System.out.println("1. Create new List");
         System.out.println("2. Modify List");
         System.out.println("3. Delete List");
         System.out.println("4. Merge Lists");
-        System.out.println("5. Exit");
+        System.out.println("5. Sum Lists");
+        System.out.println("6. Exit");
 
         String input = stdin.next();
         if(input.length() != 1){
@@ -246,6 +250,22 @@ public class LinkedList {
             }
         }
     }
+    
+    static void addLists(){
+        if(linkedLists.size() > 1){
+            System.out.println("Which lists would you like to sum?");
+            printAllLists();
+            int first = stdin.nextInt();
+            int second = stdin.nextInt();
+            if(first < linkedLists.size() && first < linkedLists.size() && first > 0 && second > 0 && first != second){
+                sumLists(linkedLists.get( first - 1), linkedLists.get(second - 1));
+            }else{
+                System.out.println("Invalid list selection");
+            }
+        }else{
+            System.out.println("Not enough lists created");
+        }
+    }
 
     static void sumLists(Node headOne, Node headTwo){
         headOne = reverse(headOne);
@@ -276,6 +296,12 @@ public class LinkedList {
             }else{
                 newNode.setNext(newHead);
                 newHead = newNode;
+            }
+            if(headOne != null){
+                headOne = headOne.getNext();
+            }
+            if(headTwo != null){
+                headTwo = headTwo.getNext();
             }
         }
         if(addOne){
